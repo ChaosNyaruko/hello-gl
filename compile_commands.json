@@ -1,0 +1,34 @@
+[
+  {
+    "file": "main.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-o",
+      "main",
+      "-I./glfw-3.4/include",
+      "-I./include",
+      "-framework",
+      "-framework",
+      "-framework",
+      "main.c"
+    ],
+    "directory": "/Users/yqg/github/hello-gl",
+    "output": "main"
+  },
+  {
+    "file": "./src/glad.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-o",
+      "main",
+      "-I./glfw-3.4/include",
+      "-I./include",
+      "-framework",
+      "-framework",
+      "-framework",
+      "./src/glad.c"
+    ],
+    "directory": "/Users/yqg/github/hello-gl",
+    "output": "main"
+  }
+]
