@@ -92,10 +92,18 @@ int main() {
   glDeleteShader(fragmentShader);
 
   float vertices[] = {
-      0.5f, 0.5f,  0.0f,  // 1
-      -0.5f, 0.5f, 0.0f,  // 2
-      -0.5f, -0.5f, 0.0f,  // 3
-      0.5f, -0.5f, 0.0f,   // 4
+      // 0.5f, 0.5f,  0.0f,  // 1
+      // -0.5f, 0.5f, 0.0f,  // 2
+      // -0.5f, -0.5f, 0.0f,  // 3
+      // 0.5f, -0.5f, 0.0f,   // 4
+      -0.1f, 0.0f, 0.0f,  
+      -0.5f, 0.0f, 0.0f, 
+      -0.1f, 0.5f, 0.0f,   
+
+
+      +0.1f, 0.0f, 0.0f,  
+      +0.5f, 0.0f, 0.0f, 
+      +0.1f, -0.5f, 0.0f,   
   };
 
   unsigned int indices[] = {
@@ -131,8 +139,8 @@ int main() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glBindVertexArray(VAO);
-    // glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
