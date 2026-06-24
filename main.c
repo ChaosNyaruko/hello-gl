@@ -14,34 +14,38 @@ void load_texture() {
   int width, height, nrChannels;
   unsigned char *data =
       stbi_load("container.jpg", &width, &height, &nrChannels, 0);
-  printf("room: width: %d, height: %d, channels: %d\n", width, height, nrChannels);
+  printf("room: width: %d, height: %d, channels: %d\n", width, height,
+         nrChannels);
 
   unsigned int room;
   glGenTextures(1, &room);
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, room);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
+               GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
   stbi_image_free(data);
 
   stbi_set_flip_vertically_on_load(true);
   data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
-    printf("face: width: %d, height: %d, channels: %d\n", width, height, nrChannels);
+  printf("face: width: %d, height: %d, channels: %d\n", width, height,
+         nrChannels);
 
   unsigned int face;
   glGenTextures(1, &face);
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, face);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA,
+               GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
   stbi_image_free(data);
 }
@@ -90,7 +94,7 @@ void processInput(GLFWwindow *window) {
     if (faceAlpha >= 1.0) {
       faceAlpha = 1.0;
     }
-  } else if  (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+  } else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
     faceAlpha -= 0.001;
     if (faceAlpha <= 0) {
       faceAlpha = 0;
@@ -173,18 +177,17 @@ int main() {
 
   float vertices[] = {
       // position         // color           // texture coords
-      -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+      -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 
-      +0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+      +0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
 
-      +0.5f, +0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f, 
+      +0.5f, +0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
 
-      -0.5f, +0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+      -0.5f, +0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
   };
 
   unsigned int indices[] = {
-    0, 1, 2,
-    2, 3, 0,
+      0, 1, 2, 2, 3, 0,
   };
 
   unsigned int VAO;
@@ -198,7 +201,8 @@ int main() {
 
   glBindVertexArray(VAO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
+               GL_STATIC_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -208,7 +212,8 @@ int main() {
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
                         (void *)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
+                        (void *)(6 * sizeof(float)));
   glEnableVertexAttribArray(2);
   glBindVertexArray(0);
 
@@ -217,8 +222,10 @@ int main() {
   int prog = shaderProgram;
   glUseProgram(prog);
 
-
   load_texture();
+
+  double lastFpsTime = glfwGetTime();
+  int frameCount = 0;
 
   while (!glfwWindowShouldClose(window)) {
     processInput(window);
@@ -226,9 +233,20 @@ int main() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    float time = glfwGetTime();
+    double time = glfwGetTime();
     float green = sin(time) / 2.0f + 0.5f;
-    printf("current time: %f, green: %f\n", time, green);
+
+    frameCount++;
+    double elapsed = time - lastFpsTime;
+    if (elapsed >= 1.0) {
+      char title[64];
+      double fps = frameCount / elapsed;
+      snprintf(title, sizeof(title), "hello, gl - FPS: %.1f", fps);
+      glfwSetWindowTitle(window, title);
+      frameCount = 0;
+      lastFpsTime = time;
+      printf("FPS: %f\n", fps);
+    }
 
     int vColorLoc = glGetUniformLocation(prog, "vertexColor");
     glUniform4f(vColorLoc, 0.0f, green, 0.0f, 1.0f);
