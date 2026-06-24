@@ -6,8 +6,9 @@ in vec2 texCoord;
 
 uniform sampler2D room;
 uniform sampler2D face;
+uniform float faceAlpha;
 
 void main()
 {
-    FragColor = mix(texture(room, texCoord), texture(face, vec2(1.0 - texCoord.s, texCoord.t)), 0.2);
+    FragColor = mix(texture(room, texCoord), texture(face, vec2(1.0 - texCoord.s, texCoord.t)), faceAlpha);
 }

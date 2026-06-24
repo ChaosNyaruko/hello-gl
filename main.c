@@ -9,6 +9,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+float faceAlpha = 0.2;
 void load_texture() {
   int width, height, nrChannels;
   unsigned char *data =
@@ -82,8 +83,19 @@ char *read_shader_file(const char *filepath) {
 }
 
 void processInput(GLFWwindow *window) {
-  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
     glfwSetWindowShouldClose(window, true);
+  } else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+    faceAlpha += 0.001;
+    if (faceAlpha >= 1.0) {
+      faceAlpha = 1.0;
+    }
+  } else if  (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+    faceAlpha -= 0.001;
+    if (faceAlpha <= 0) {
+      faceAlpha = 0;
+    }
+  }
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
@@ -161,13 +173,13 @@ int main() {
 
   float vertices[] = {
       // position         // color           // texture coords
-      -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  0.45f, 0.45f,
+      -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
 
-      +0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  0.55f, 0.45f,
+      +0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
 
-      +0.5f, +0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.55f, 0.55f, 
+      +0.5f, +0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f, 
 
-      -0.5f, +0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.45f, 0.55f,
+      -0.5f, +0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,
   };
 
   unsigned int indices[] = {
@@ -229,6 +241,9 @@ int main() {
 
     int face = glGetUniformLocation(prog, "face");
     glUniform1i(face, 1);
+
+    float mix = glGetUniformLocation(prog, "faceAlpha");
+    glUniform1f(mix, faceAlpha);
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
