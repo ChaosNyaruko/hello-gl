@@ -123,6 +123,13 @@ int main() {
     return -1;
   }
   glfwMakeContextCurrent(window);
+  glfwSwapInterval(1); // 0: no vsync, for testing
+
+  GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+  const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+
+  printf("Monitor: %dx%d @ %d Hz\n", mode->width, mode->height,
+         mode->refreshRate);
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     printf("Failed to initialize GLAD\n");
@@ -136,7 +143,7 @@ int main() {
 
   const char *vertexShaderSource = read_shader_file("./shaders/vertex.glsl");
   unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertexShader, 2, &vertexShaderSource, NULL);
+  glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
   glCompileShader(vertexShader);
 
   int success;
