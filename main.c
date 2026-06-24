@@ -162,6 +162,9 @@ int main() {
     int vColorLoc = glGetUniformLocation(prog, "vertexColor");
     glUniform4f(vColorLoc, 0.0f, green, 0.0f, 1.0f);
 
+    int hOffset = glGetUniformLocation(prog, "horizonOffset");
+    glUniform1f(hOffset, sin(time) / 2.0f + 0.5f);
+
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
